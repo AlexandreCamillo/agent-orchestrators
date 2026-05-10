@@ -1,4 +1,4 @@
-# paperclip-company-templates
+#  Agent Orchestrators
 
 > Templates de **companies** para [Paperclip](https://github.com/paperclipai/paperclip) — a plataforma open-source de orquestração de agentes de IA.
 
