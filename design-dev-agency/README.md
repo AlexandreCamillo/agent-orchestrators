@@ -60,6 +60,35 @@ dev-agency-spec/
 
 **Total:** 34 arquivos · 9 agentes mapeados · 4 templates de issue/goal
 
+## Skills externas necessárias (não bundled no Paperclip)
+
+Este template depende de **2 skills externas** que precisam ser importadas antes de contratar os agentes:
+
+| Skill | Fonte | Usado por |
+|---|---|---|
+| **Superpowers** | [`obra/superpowers`](https://github.com/obra/superpowers) | CTO, Tech Lead, Developer, QA Engineer |
+| **frontend-design** | [`anthropics/claude-code` — plugins/frontend-design](https://github.com/anthropics/claude-code/tree/main/plugins/frontend-design/skills/frontend-design) | UI Designer, Design Lead, Design Reviewer |
+
+Importar via API do Paperclip:
+
+```bash
+# Superpowers
+curl -X POST "$PAPERCLIP_API_URL/api/companies/$PAPERCLIP_COMPANY_ID/skills/import" \
+  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"source": "https://github.com/obra/superpowers"}'
+
+# frontend-design
+curl -X POST "$PAPERCLIP_API_URL/api/companies/$PAPERCLIP_COMPANY_ID/skills/import" \
+  -H "Authorization: Bearer $PAPERCLIP_API_KEY" \
+  -H "Content-Type: application/json" \
+  -d '{"source": "https://github.com/anthropics/claude-code/tree/main/plugins/frontend-design/skills/frontend-design"}'
+```
+
+Sem essas skills importadas, os AGENTS.md dos agentes vão referenciar skills inexistentes — silenciosamente ignoradas no runtime, sem aviso de erro.
+
+---
+
 ## Por onde começar
 
 1. **Lê `ARCHITECTURE.md`** — entende a arquitetura completa, pipelines, gates, integrações

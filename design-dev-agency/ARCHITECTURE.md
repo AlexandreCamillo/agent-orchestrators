@@ -239,14 +239,27 @@ Por agente, configurar quais skills ativam (no AGENTS.md ou via instrução de p
 | Agente | Skills ativas | Skills suprimidas |
 |---|---|---|
 | **CEO** | nenhuma — apenas roteamento | brainstorming, TDD, debugging |
-| **Design Lead** | brainstorming (UX) | TDD, debugging, technical brainstorming |
+| **Design Lead** | brainstorming (UX), frontend-design | TDD, debugging, technical brainstorming |
 | **UX Architect** | brainstorming (UX) | TDD, technical brainstorming |
-| **UI Designer** | using-git-worktrees, subagent-driven-development | TDD, technical brainstorming |
-| **Design Reviewer** | nenhuma do Superpowers — usa design-review skill | todas as outras |
+| **UI Designer** | frontend-design, brainstorming (aesthetic axis), using-git-worktrees, subagent-driven-development | TDD, systematic-debugging |
+| **Design Reviewer** | frontend-design | todas as outras |
 | **CTO** | brainstorming (técnica), writing-plans | UX brainstorming |
 | **Tech Lead** | writing-plans, systematic-debugging, TDD, verification-before-completion | UX brainstorming |
 | **Developer** | TDD, subagent-driven-development, verification-before-completion, using-git-worktrees | brainstorming, planning |
 | **QA Engineer** | systematic-debugging, verification-before-completion | todas as outras |
+
+**Skills × Agente (foco nas skills de execução estética e de worktree):**
+
+| skill | UI Designer | Design Lead | Design Reviewer | UX Architect |
+|---|:-:|:-:|:-:|:-:|
+| frontend-design | ✅ | ✅ | ✅ | — |
+| brainstorming | ✅ | ✅ | — | ✅ |
+| using-git-worktrees | ✅ | — | — | — |
+| subagent-driven-development | ✅ | — | — | — |
+
+- **UI Designer:** `frontend-design` é o core da execução estética — tipografia, paleta, motion, composição distinta por variante.
+- **Design Lead:** usa `frontend-design` para avaliar e orientar direções estéticas durante briefing.
+- **Design Reviewer:** usa `frontend-design` como referência para avaliar qualidade de execução visual das variantes.
 
 **Como suprimir skill:** instrução explícita no AGENTS.md do agente, tipo: `"Skip /clarify and /brainstorming for UX. Design is FROZEN — you receive specs from CTO."` Superpowers respeita override no prompt.
 
