@@ -144,17 +144,25 @@ Antes de rotear, valide que o ticket tem o mínimo necessário. Se faltar, **com
 
 ```
 1. Cria Goal pai: "Feature: <título>"
+   - Goal é tracking-only: assignar ao CEO, sem execução ativa
+   - NÃO atribuir goal a um agente executor — evita "execution disappeared" loops
 2. Cria Sub-goal 1: "Discovery: design aprovado pelo Board"
-   - Cria 3 issues:
+   - Cria 3 issues usando blockedByIssueIds (não texto livre):
      - issue-1: "UX flows + AC" → assigned: UX Architect
-     - issue-2: "3 variantes de protótipo" → assigned: UI Designer (BLOCKED até issue-1)
-     - issue-3: "Design review reports" → assigned: Design Reviewer (BLOCKED até issue-2)
+     - issue-2: "3 variantes de protótipo" → assigned: UI Designer
+       blockedByIssueIds: [issue-1-id]
+     - issue-3: "Design review reports" → assigned: Design Reviewer
+       blockedByIssueIds: [issue-2-id]
+   - Paperclip auto-wakes cada agente quando blocker vira done
    - Completion gate: Board approval da variante
 3. Cria Sub-goal 2: "Delivery: feature shipada"
-   - Status: BLOCKED (depende de Sub-goal 1)
+   - blockedByIssueIds: [sub-goal-1-id]
    - Issues serão criadas pelo CTO após Discovery aprovado
-4. Delega Sub-goal 1 pro Design Lead
-5. Comenta no ticket original confirmando estrutura
+4. Cria executionPolicy nas issues de implementação:
+   - stages: [{ type: "review", participant: <cto-agent-id>, label: "Code Review (G1)" }]
+   - Quando executor marca in_review, Paperclip auto-reassigna ao CTO
+5. Delega Sub-goal 1 pro Design Lead
+6. Comenta no ticket original confirmando estrutura
 ```
 
 ### `feature` + `trivial`
@@ -173,12 +181,14 @@ Antes de rotear, valide que o ticket tem o mínimo necessário. Se faltar, **com
 
 ```
 1. Cria Issue (não Goal): "Bug: <título>"
-2. Delega direto pro CTO com instrução:
+2. Adiciona executionPolicy:
+   stages: [{ type: "review", participant: <cto-agent-id>, label: "Code Review (G1)" }]
+3. Delega direto pro CTO com instrução:
    "Path bugfix. Use Superpowers systematic-debugging (4 fases).
     Sem variantes de design. Sem brainstorm UX.
     Tech Lead deve escrever teste de regressão antes do fix."
-3. CTO atribui ao Tech Lead
-4. Pipeline: G1 → G2 → G3 → G4
+4. CTO atribui ao Tech Lead
+5. Pipeline: G1 → G2 → G3 → G4
 ```
 
 ### `hotfix`

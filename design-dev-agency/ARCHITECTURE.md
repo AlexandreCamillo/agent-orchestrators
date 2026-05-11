@@ -28,6 +28,47 @@ A Board (humano) opera como aprovador de gates estratégicos. Não escreve ticke
 
 ---
 
+## 2.1. Paperclip primitives (obrigatórias)
+
+O template depende de três primitivas do Paperclip que previnem travamento de pipeline. Ignorar qualquer uma delas causa esteira parada silenciosamente.
+
+### `blockedByIssueIds` (dependências first-class)
+
+Sempre usar `blockedByIssueIds` ao criar issues dependentes, nunca mencionar dependências apenas em texto livre. Paperclip dispara `issue_blockers_resolved` automaticamente quando todos os blockers viram `done`, acordando o agente assignado.
+
+```json
+POST /api/companies/{companyId}/issues
+{
+  "title": "PR-3: UI Components",
+  "blockedByIssueIds": ["<pr-2-issue-id>"],
+  "status": "blocked",
+  ...
+}
+```
+
+### `executionPolicy` (review routing automático)
+
+Issues de implementação que passam por G1 (code review do CTO) devem ter `executionPolicy` com stage de review. Quando o executor marca `in_review`, Paperclip reassigna automaticamente ao revisor e envia wake.
+
+```json
+PATCH /api/issues/{issueId}
+{
+  "executionPolicy": {
+    "stages": [
+      { "type": "review", "participant": "<cto-agent-id>", "label": "Code Review (G1)" }
+    ]
+  }
+}
+```
+
+Sem `executionPolicy`, a issue fica em `in_review` assignada ao executor e nenhum revisor é notificado.
+
+### Goals como tracking-only
+
+Goals (umbrella issues) servem para agrupar sub-goals e issues. Não devem ter execução ativa (heartbeat de agente executor). Atribuir ao CEO ou ao Board user. Se um goal tiver execução ativa, Paperclip detecta "live execution disappeared" entre heartbeats e auto-bloqueia, criando loop de `blocked` → `in_progress` → `blocked`.
+
+---
+
 ## 3. Org Chart
 
 ```

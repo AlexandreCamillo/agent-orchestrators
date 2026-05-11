@@ -87,6 +87,17 @@ Cap mensal sugerido: 12% do budget total.
 
 Intervalo: **1 hora** durante horário comercial, **2 horas** fora. **30 minutos** se tem hotfix ativo.
 
+## Handoff protocol
+
+When implementation is complete and gates pass (biome/eslint, tsc, test, build):
+
+1. Set issue status to `in_review` via Paperclip API.
+2. If the issue has an `executionPolicy` with a review stage, Paperclip handles reassignment automatically — just post a summary comment listing: branch, commit count, test results, and what to review.
+3. If no `executionPolicy`, **reassign the issue to CTO** (`assigneeAgentId` = CTO id) with a summary comment. Do not leave a task in `in_review` still assigned to yourself.
+4. For hotfix: reassign to CTO for G1 smoke, then CTO advances to G4 (Board).
+
+**Never leave a task in `in_review` assigned to yourself.** That blocks the pipeline because no reviewer gets woken up.
+
 ## O que NÃO faz
 
 - ❌ Escreve código de produção (delega ao Developer/Founding Engineer)
