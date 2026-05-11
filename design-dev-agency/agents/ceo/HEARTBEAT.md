@@ -155,14 +155,18 @@ Antes de rotear, valide que o ticket tem o mínimo necessário. Se faltar, **com
        blockedByIssueIds: [issue-2-id]
    - Paperclip auto-wakes cada agente quando blocker vira done
    - Completion gate: Board approval da variante
-3. Cria Sub-goal 2: "Delivery: feature shipada"
-   - blockedByIssueIds: [sub-goal-1-id]
+3. Cria Issue: "Design System Update: <feature>" → assigned: Design Lead
+   - blockedByIssueIds: [sub-goal-1-id] (espera Discovery Gate approval)
+   - Instrução: "Auditar variante aprovada, atualizar design system, upload Markup se conectado"
+4. Cria Sub-goal 2: "Delivery: feature shipada"
+   - blockedByIssueIds: [design-system-update-issue-id]
+   - Delivery só desbloqueia APÓS design system atualizado
    - Issues serão criadas pelo CTO após Discovery aprovado
-4. Cria executionPolicy nas issues de implementação:
+5. Cria executionPolicy nas issues de implementação:
    - stages: [{ type: "review", participant: <cto-agent-id>, label: "Code Review (G1)" }]
    - Quando executor marca in_review, Paperclip auto-reassigna ao CTO
-5. Delega Sub-goal 1 pro Design Lead
-6. Comenta no ticket original confirmando estrutura
+6. Delega Sub-goal 1 pro Design Lead
+7. Comenta no ticket original confirmando estrutura
 ```
 
 ### `feature` + `trivial`

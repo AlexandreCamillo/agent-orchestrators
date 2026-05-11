@@ -97,6 +97,44 @@ Quando todas as 3 issues estão done (ou 1, em modo trivial):
 - Se variante escolhida → marca como "design spec congelada", arquiva worktrees das outras 2
 - Se Board pediu iteração → reabre Issue 2 com instruções específicas, novo ciclo
 - Se Board rejeitou tudo → escala pro CEO ("Discovery precisa ser repensada")
+- Se variante aprovada → executa Design System Update (passo 4.1) antes de liberar Delivery
+
+### 4.1 Design System Update (pós-aprovação)
+
+Obrigatório após toda aprovação de variante. Mesmo que o feature não introduza componentes visualmente novos, o designer audita o design system inteiro para identificar gaps.
+
+1. **Lê variante aprovada** e UX_SPEC.md completo
+2. **Compara cada componente visual** com o design system existente (design-system.md do projeto)
+3. **Para cada componente novo ou alterado:**
+   - Extrai tokens (cor, tipografia, spacing, radius, shadow, glass/blur, motion)
+   - Documenta no design system com: nome de classe CSS, estados (default, hover, active, focus, disabled), uso recomendado
+4. **Para componentes existentes no design system mas ausentes da variante:**
+   - Verifica se são obsoletos ou apenas não aplicáveis ao feature atual
+   - NÃO remove — apenas sinaliza para revisão futura se potencialmente obsoletos
+5. **Commita design system atualizado** no mesmo branch da feature
+6. **Posta diff summary** no comentário do issue: quais componentes/tokens foram adicionados, alterados, ou sinalizados
+7. **Upload para Markup** (se conectado — passo 4.2)
+
+### 4.2 Upload para Markup (se conectado)
+
+Executar apenas se `MARKUP_URL` e `MARKUP_TOKEN` existirem como env vars. Se não existirem, pular silenciosamente.
+
+1. **Verifica se projeto existe** no Markup para o projeto Paperclip atual
+   - `GET https://${MARKUP_URL}/api/mockups` — procura por slug do projeto
+   - Se não existe, cria estrutura básica
+2. **Cria zip** com `index.html` do mockup aprovado
+3. **Upload do mockup** na pasta "Feature Mockups":
+   ```
+   POST https://${MARKUP_URL}/api/mockups
+   -F "name=<feature-name>"
+   -F "slug=<feature-slug>"
+   -F "build=@mockup.zip;type=application/zip"
+   ```
+4. **Upload do design system** (se atualizado) na pasta "Design System":
+   - Converte design-system.md em HTML visual (com swatches de cor, exemplos de componentes)
+   - Upload como mockup separado
+5. **Posta URLs** publicadas no comentário do issue
+6. **Se upload falhar:** loga erro, continua sem bloquear — Markup é complementar
 
 ### 5. Health check
 

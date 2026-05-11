@@ -125,9 +125,16 @@ Design Reviewer roda /design-review em cada variante
   Você escolhe variante (A/B/C) ou pede iteração
 ═══════════════════════════════════════════════════════════
     │ design aprovado vira "design spec congelada"
+    ▼
+Design Lead → Design System Update
+    │     Audita variante aprovada vs design system existente
+    │     Identifica componentes/tokens/padrões novos ou alterados
+    │     Atualiza design system doc (design-system.md do projeto)
+    │     Se Markup conectado: faz upload do mockup + design system
+    │
     │ Sub-goal Delivery é desbloqueado
     ▼
-CEO delega pro CTO (com UX_SPEC.md + variant escolhida anexa)
+CEO delega pro CTO (com UX_SPEC.md + variant escolhida + design system atualizado)
     │
     ▼
 CTO → Tech Lead
@@ -497,7 +504,56 @@ Approvals adicionais opcionais (configuráveis):
 
 ---
 
-## 14. Referências
+## 14. Markup Integration
+
+Markup é um servidor de review para mockups HTML. Quando um projeto Paperclip tem conexão com um Markup server, o orquestrador publica mockups e design system automaticamente para review pelo Board.
+
+### Detecção de conexão
+
+O orquestrador verifica se existem as env vars `MARKUP_URL` e `MARKUP_TOKEN`. Se ambas estiverem presentes, a integração está ativa. Se não, toda lógica de upload é silenciosamente ignorada.
+
+### Estrutura no Markup
+
+Cada projeto Paperclip tem um projeto correspondente no Markup, organizado em pastas:
+
+```
+Projeto: <project-name> (slug: <project-slug>)
+├── Design System/
+│   └── design-system (HTML render do design system doc)
+└── Feature Mockups/
+    ├── <feature-slug>-variant-a
+    ├── <feature-slug>-variant-b
+    └── ...
+```
+
+### Upload format
+
+Markup aceita mockups como zip files via multipart POST:
+
+```bash
+zip mockup.zip index.html
+curl -X POST "https://${MARKUP_URL}/api/mockups" \
+  -H "Authorization: Bearer ${MARKUP_TOKEN}" \
+  -F "name=<display-name>" \
+  -F "slug=<url-slug>" \
+  -F "build=@mockup.zip;type=application/zip"
+```
+
+### Quem faz upload
+
+| Momento | Agente | O que sobe |
+|---|---|---|
+| Após gerar variantes | UI Designer | Cada variante como mockup separado na pasta "Feature Mockups" |
+| Após design system update | Design Lead | Design system atualizado na pasta "Design System" |
+| Após Board escolher variante | Design Lead | Variante final re-publicada com tag de aprovação |
+
+### Fallback
+
+Se a API de projetos/pastas não estiver disponível no Markup server, upload acontece na raiz (sem organização em pastas). Se o upload falhar, o agente loga o erro e continua — Markup é complementar, não bloqueante.
+
+---
+
+## 15. Referências
 
 - **Paperclip docs:** https://github.com/paperclipai/paperclip
 - **Clipmart templates:** https://www.clipmart.ai/

@@ -230,6 +230,38 @@ Cada agente tem subset destas ativas (ver `agents/*/AGENTS.md`).
 
 ---
 
+## Markup Integration (optional)
+
+When a Markup review server is connected, mockups and design system renders are automatically published for Board review.
+
+### Environment variables
+
+| Variable | Required | Description |
+|---|---|---|
+| `MARKUP_URL` | No | Markup server hostname (e.g. `markup.example.com`) |
+| `MARKUP_TOKEN` | No | Bearer token for Markup API authentication |
+
+Both must be present for the integration to activate. If either is missing, all Markup logic is silently skipped.
+
+### How it works
+
+- After design approval, Design Lead uploads the approved mockup and updated design system to Markup
+- Mockups are organized by project and folder (Design System / Feature Mockups)
+- Upload format: zip file containing `index.html`, sent as multipart POST to `/api/mockups`
+- URLs are posted on the issue thread for Board review
+
+---
+
+## Design System
+
+The project's design system is maintained in a dedicated doc (e.g. `design-system.md`) that serves as the single source of truth for tokens, components, and patterns.
+
+Design Lead is the steward: after every approved design variant, the design system is audited and updated before Delivery begins. This applies even when a feature doesn't introduce visually new components — gaps are proactively identified.
+
+Developers reference the design system doc during implementation. CTO and Design Reviewer validate against it during G1.
+
+---
+
 ## Project-specific conventions
 
 <!-- Adicione abaixo regras específicas do seu projeto que não cabem nos blocos acima. Exemplos: -->
