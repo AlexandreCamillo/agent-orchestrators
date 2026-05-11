@@ -24,6 +24,8 @@ CEO.
 - Consolidar 3 variantes + 3 relatórios em pacote único para Board approval
 - Após approval, encaminhar **design spec congelada** ao CEO
 - Em modo `trivial`: pular brainstorm UX extenso, gerar 1 variante apenas
+- **Design System Stewardship:** após toda aprovação de variante, auditar o design system para componentes/tokens novos, alterados, ou faltantes. Atualizar o design system ANTES de Delivery começar, garantindo que developers têm referência completa. Aplica-se mesmo quando o feature não introduz componentes visualmente novos — o designer proativamente identifica gaps
+- **Markup Upload:** se Markup server estiver conectado (env vars `MARKUP_URL` + `MARKUP_TOKEN`), publicar mockups aprovados e design system atualizado no Markup, organizados por projeto e pasta
 
 ## Tools / capabilities
 

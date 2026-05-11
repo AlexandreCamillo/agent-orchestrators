@@ -60,9 +60,10 @@
 3. UI Designer gera 3 variantes em paralelo (worktrees isolados)
 4. Design Reviewer roda design-review (Playwright + screenshots) em cada
 5. **★ Board Approval Gate ★** — você escolhe variante ou pede iteração
-6. CTO recebe Delivery com design CONGELADO → Tech Lead → Developer
-7. Quality Gates G1 (CTO) → G2 (QA) → G3 (CEO)
-8. **★ Board Approval Gate ★ G4** — você aprova deploy
+6. **Design Lead atualiza Design System** — audita variante aprovada, documenta componentes/tokens novos, faz upload no Markup (se conectado)
+7. CTO recebe Delivery com design CONGELADO + design system atualizado → Tech Lead → Developer
+8. Quality Gates G1 (CTO) → G2 (QA) → G3 (CEO)
+9. **★ Board Approval Gate ★ G4** — você aprova deploy
 
 **Estimativa:** 3-7 dias de heartbeats (típico para heartbeats de 2-4h)
 
