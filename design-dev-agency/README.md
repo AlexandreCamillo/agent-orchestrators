@@ -122,6 +122,48 @@ Cada agente tem 3 arquivos com responsabilidades claras:
 | Developer | Sonnet 4.6 | **22%** (mais consumidor) |
 | QA Engineer | Sonnet 4.6 | 8% |
 
+## Skills consolidadas (todos os agentes)
+
+Lista completa de skills referenciadas nos AGENTS.md. Todas devem estar importadas na company antes de contratar os agentes.
+
+### Skills externas (importar via API)
+
+| Skill | Fonte | Agentes |
+|---|---|---|
+| **Superpowers** (brainstorming, writing-plans, TDD, systematic-debugging, verification-before-completion, using-git-worktrees, subagent-driven-development) | [`obra/superpowers`](https://github.com/obra/superpowers) | CTO, Tech Lead, Developer, QA Engineer, Design Lead, UX Architect, UI Designer |
+| **frontend-design** | [`anthropics/claude-code`](https://github.com/anthropics/claude-code/tree/main/plugins/frontend-design/skills/frontend-design) | UI Designer, Design Lead, Design Reviewer |
+| **design-review** | [`OneRedOak/claude-code-workflows`](https://github.com/OneRedOak/claude-code-workflows/tree/main/design-review) | Design Reviewer, CTO (G1 com mudança visual) |
+
+### Skills do projeto (paperclipai/companies ou custom)
+
+| Skill | Agentes que usam |
+|---|---|
+| `gate-check` | CEO, Design Lead, Tech Lead, QA Engineer |
+| `milestone-review` | CEO |
+| `code-review` | CTO, Tech Lead, Developer (self-review) |
+| `architecture-decision` | CTO |
+| `design-system` | Design Lead |
+| `prototype` | Design Lead |
+| `perf-profile` | CTO |
+| `security-audit` | CTO |
+| `bug-report` | Tech Lead, QA Engineer |
+| `estimate` | Tech Lead |
+| `playtest-report` | QA Engineer |
+| `accessibility-audit` | Design Reviewer |
+
+### Superpowers — ativo/suprimido por agente
+
+| Skill Superpowers | CEO | Design Lead | UX Arch. | UI Designer | Des. Reviewer | CTO | Tech Lead | Developer | QA Eng. |
+|---|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| brainstorming | — | UX | UX | estética | — | técnica | — | — | — |
+| writing-plans | — | — | — | — | — | ✅ | ✅ | — | — |
+| TDD | — | — | — | — | — | — | ✅ | ✅ | — |
+| systematic-debugging | — | — | — | — | — | — | ✅ | — | ✅ |
+| verification-before-completion | — | — | — | — | — | — | ✅ | ✅ | ✅ |
+| using-git-worktrees | — | — | — | ✅ | — | — | ✅ | ✅ | — |
+| subagent-driven-development | — | — | — | ✅ | — | — | — | ✅ | — |
+| frontend-design | — | ✅ | — | ✅ | ✅ | — | — | — | — |
+
 ## Versionamento
 
 Recomendação: este bundle vive em git, junto com a configuração do Paperclip company. Toda mudança em pipeline ou roteamento passa por commit, então você tem histórico de "como a empresa operou ao longo do tempo".
